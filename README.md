@@ -8,6 +8,9 @@
 
 Now you get to be the new Employee 427 ;)
 
+
+![](example.png)
+
 ## Installation
 
 ```bash
