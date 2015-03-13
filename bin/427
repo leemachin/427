@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+
+lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
+$LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
+
+require "curses"
+require "427"
+require "timeout"
+
+include Curses
+include FourTwoSeven
+include Timeout
+
+DEFAULT_COLORS = 1
+
+begin
+  noecho
+  init_screen
+  start_color
+  crmode
+  nonl
+
+  init_pair(DEFAULT_COLORS, COLOR_GREEN, COLOR_BLACK)
+  window = Window.new(0, 0, 0, 0)
+
+  window.scrollok(true)
+  window.idlok(true)
+  window.color_set(DEFAULT_COLORS)
+
+  window << "Welcome, Employee 427."
+  window << Command::SEPARATOR
+
+  prev_cmd = nil
+
+  loop do
+    cmd = Command.new(prev_cmd)
+    prev_cmd = cmd
+    timer = 0
+
+    window << cmd.prompt 
+
+    if cmd.duration > 0
+      begin
+        input = nil
+        loop do
+          timeout(1) do
+            input = window.getch
+            if input == cmd.key && timer < cmd.duration 
+              timer += 1
+            else
+              fail
+            end
+          end
+          sleep (1)
+        end
+      rescue # no keypress
+        if timer == cmd.duration && input == cmd.key
+        else
+          beep
+          flash
+        end
+      end
+    else
+      if input == cmd.key
+        # nothing happens when you get it right, does it?
+      else
+        beep
+        flash
+      end
+    end
+
+    window << Command::SEPARATOR
+    sleep(5)
+    window.refresh
+  end
+
+ensure
+  close_screen
+end
+
+at_exit do
+  puts "See you tomorrow, Employee 427"
+end
+
