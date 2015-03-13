@@ -10,7 +10,7 @@ module FourTwoSeven
 
     DURATION = 0..15
 
-    PROMPT = "Please PRESS '%s' on your KEYBOARD for %ss.\n"
+    PROMPT = "> Please PRESS '%s' on your KEYBOARD for %ss.\n"
     
     SEPARATOR = "\n\n- - -\n"
   

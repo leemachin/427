@@ -12,7 +12,13 @@ include Curses
 include FourTwoSeven
 include Timeout
 
+
+height, width = *IO.console.winsize
+
 DEFAULT_COLORS = 1
+TITLE_BAR_LEFT = "> Employee #427 Terminal Prompt"
+TITLE_BAR_RIGHT = "v. #{VERSION}".rjust(width - TITLE_BAR_LEFT.length)
+
 
 begin
   noecho
@@ -22,13 +28,20 @@ begin
   nonl
 
   init_pair(DEFAULT_COLORS, COLOR_GREEN, COLOR_BLACK)
-  window = Window.new(0, 0, 0, 0)
+  window = Window.new(height - 1, width, 1, 0)
 
   window.scrollok(true)
   window.idlok(true)
   window.color_set(DEFAULT_COLORS)
 
-  window << "Welcome, Employee 427."
+  title_bar = Window.new(1, width, 0, 0)
+  title_bar.color_set(DEFAULT_COLORS)
+  title_bar.box(0, ?_)
+  title_bar << (TITLE_BAR_LEFT + TITLE_BAR_RIGHT)
+  title_bar.refresh
+
+  window.setpos(height - 1, 0)
+  window.scroll
   window << Command::SEPARATOR
 
   prev_cmd = nil
