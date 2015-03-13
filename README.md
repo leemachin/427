@@ -14,7 +14,7 @@ Now you get to be the new Employee 427 ;)
 ## Installation
 
 ```bash
-gem install 427
+gem install four_two_seven
 ```
 
 ## Usage
