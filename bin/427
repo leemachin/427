@@ -40,7 +40,7 @@ begin
 
     window << cmd.prompt 
 
-    if cmd.duration > 0
+    if cmd.duration > 0 # todo: fix this horrible mess
       begin
         input = nil
         loop do
