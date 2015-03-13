@@ -14,7 +14,7 @@ module FourTwoSeven
     
     SEPARATOR = "\n\n- - -\n"
   
-    attr_accessor :prev_command 
+    attr_accessor :prev_command
 
     def initialize(prev_command = nil)
       @prev_command = prev_command
@@ -29,7 +29,8 @@ module FourTwoSeven
     end
 
     def duration
-      @duration ||= rand(DURATION)
+      0
+      #@duration ||= rand(DURATION)
     end
 
     def prompt

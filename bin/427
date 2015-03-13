@@ -6,6 +6,7 @@ $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 require "curses"
 require "427"
 require "timeout"
+require "io/console"
 
 include Curses
 include FourTwoSeven
@@ -61,7 +62,7 @@ begin
         end
       end
     else
-      if input == cmd.key
+      if window.getch == cmd.key
         # nothing happens when you get it right, does it?
       else
         beep
@@ -69,16 +70,16 @@ begin
       end
     end
 
-    window << Command::SEPARATOR
-    sleep(5)
-    window.refresh
-  end
+    STDIN.flush
 
-ensure
-  close_screen
+    window << Command::SEPARATOR
+    window.refresh
+    sleep(5)
+  end
 end
 
 at_exit do
+  close_screen
   puts "See you tomorrow, Employee 427"
 end
 
